@@ -13,6 +13,7 @@ function Attendance() {
     formState: { errors, isValid },
     control,
   } = useForm<FormValues>({
+    mode: "onBlur",
     defaultValues: {
       attend: null,
       guestCount: "1",
@@ -122,6 +123,9 @@ function Attendance() {
                       },
                     })}
                   />
+                  {errors.notComingAttendee?.message && (
+                    <p className={styles.errorMessage}>{errors.notComingAttendee?.message}</p>
+                  )}
                 </div>
               )}
               {attend === GuestComming.Comming && (
@@ -154,6 +158,9 @@ function Attendance() {
                           },
                         })}
                       />
+                      {errors.guests?.[i]?.name?.message && (
+                        <p className={styles.errorMessage}>{errors.guests[i]?.name?.message}</p>
+                      )}
                     </div>
 
                     <h5>Какво меню предпочитате?</h5>
