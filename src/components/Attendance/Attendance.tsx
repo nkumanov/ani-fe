@@ -118,7 +118,7 @@ function Attendance() {
                     {...register(`notComingAttendee`, {
                       required: "Name is required",
                       pattern: {
-                        value: /[a-zA-Z]/,
+                        value: /^[\p{L}\s]+$/u,
                         message: "Моля въведете валидно име.",
                       },
                     })}
