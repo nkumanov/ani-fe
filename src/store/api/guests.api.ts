@@ -1,4 +1,4 @@
-import { Attendee, GuestComming, Meal } from "../../shared/guest.model";
+import { Attendee, GuestComming } from "../../shared/guest.model";
 import { baseApi } from "./api";
 
 export const guestApi = baseApi.injectEndpoints({
