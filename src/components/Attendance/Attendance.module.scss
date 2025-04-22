@@ -1,0 +1,97 @@
+.attendanceForm {
+  width: 100%;
+  padding: 3rem 2.5rem;
+  background-color: #fcf9f7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  h2 {
+    color: #938581;
+    font-size: 3rem;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  h3 {
+    color: #938581;
+    font-size: 1.5rem;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  form {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    h5 {
+      font-size: 1.5rem;
+      font-weight: normal;
+    }
+    input {
+      font-size: 1.6rem;
+    }
+  }
+
+  button {
+    font-size: 1.6rem;
+    align-self: center;
+  }
+
+  select {
+    font-size: 1.5rem;
+    option {
+      font-size: 1.5rem;
+    }
+  }
+}
+
+.formElement {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
+  margin-bottom: 0.5rem;
+  label {
+    font-size: 1.5rem;
+    width: fit-content;
+  }
+}
+
+.formElementSelect {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
+  margin-bottom: 0.5rem;
+  align-items: center;
+  label {
+    font-size: 1.5rem;
+    width: fit-content;
+  }
+  select {
+    margin-left: 1rem;
+    @media screen and (max-width: 650px) {
+      width: 50px;
+      height: 30px;
+    }
+  }
+}
+
+.flexCol {
+  flex-direction: column;
+}
+
+.bulletOption {
+  margin-left: 0.5rem;
+}
+
+.submit {
+  margin-top: 1rem;
+}
+
+.delimeter {
+  border-bottom: 2px solid rgb(206, 205, 205);
+}
+.answer {
+  font-size: 1.5rem;
+  text-align: center;
+  width: 75%;
+}
