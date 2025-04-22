@@ -1,9 +1,12 @@
+import { useState } from "react";
+import { Attend } from "../../shared/guest.model";
 import { useGetAllGuestsQuery } from "../../store/api/guests.api";
 import styles from "./Guests.module.scss";
-enum Attend {
+enum UserAttend {
   comming = "Ще присъства",
   notComming = "Няма, да присъства",
 }
+
 enum Meal {
   meat = "Месно",
   vegie = "Вегетарианско",
@@ -15,6 +18,18 @@ function Guests() {
     <section className={styles.wrapper}>
       <h1>List of all guests</h1>
       {isLoading && <p>Loading...</p>}
+      {data && (
+        <p>
+          Брой присъстващи гости:{" "}
+          {data.filter((guest) => guest.attend === Attend.Comming).length}
+        </p>
+      )}
+      {data && (
+        <p>
+          Брой НЕ присъстващи гости:{" "}
+          {data.filter((guest) => guest.attend === Attend.NotComming).length}
+        </p>
+      )}
       {error && <p>Възникна някаква грешка. Моля опитайте по-късно.</p>}
       {data && (
         <table>
@@ -34,9 +49,9 @@ function Guests() {
                   <td>{index + 1}</td>
                   <td>{user.name}</td>
                   <td>
-                    {user.attend ? Attend[user.attend] : "Няма информация"}
+                    {user.attend ? UserAttend[user.attend] : "Няма информация"}
                   </td>
-                  <td>{user.meal ? Meal[user.meal] : "Няма информация"}</td>
+                  <td>{user.meal ? Meal[user.meal] : ""}</td>
                   <td>{user.alergy ? user.alergy : ""}</td>
                 </tr>
               ))}

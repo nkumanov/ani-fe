@@ -1,16 +1,25 @@
-import { Attendee, GuestComming } from "../../shared/guest.model";
+import { Attend, Attendee, Meal } from "../../shared/guest.model";
 import { baseApi } from "./api";
 
 export const guestApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getAllGuests: builder.query<{ user: any }, void>({
+    getAllGuests: builder.query<
+      {
+        _id: string;
+        name: string;
+        attend: Attend;
+        meal?: Meal;
+        alergy?: string;
+      }[],
+      void
+    >({
       query: () => ({
         url: "guests/all",
       }),
     }),
     addNewGuest: builder.mutation<
       { user: any },
-      { attend: GuestComming; name?: string; guests?: Attendee[] }
+      { attend: Attend; name?: string; guests?: Attendee[] }
     >({
       query: (queryData) => ({
         url: "guests",

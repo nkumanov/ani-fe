@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import styles from "./Attendance.module.scss";
 import { useAddNewGuestMutation } from "../../store/api/guests.api";
-import { FormValues, GuestComming } from "../../shared/guest.model";
+import { FormValues, Attend } from "../../shared/guest.model";
 
 function Attendance() {
   const {
@@ -11,9 +11,10 @@ function Attendance() {
     watch,
     reset,
     formState: { errors, isValid },
+    setValue,
     control,
   } = useForm<FormValues>({
-    mode: "onBlur",
+    mode: "onChange",
     defaultValues: {
       attend: null,
       guestCount: "1",
@@ -29,7 +30,7 @@ function Attendance() {
   const guestCountWatch = parseInt(watch("guestCount") || "1");
   const attend = watch("attend");
   const onSubmitHandler: SubmitHandler<FormValues> = async (data) => {
-    if (data.attend === GuestComming.NotComming) {
+    if (data.attend === Attend.NotComming) {
       const formDataToSend = {
         attend: data.attend,
         name: data.notComingAttendee,
@@ -41,7 +42,7 @@ function Attendance() {
       }
     } else {
       const formDataToSend = {
-        attend: data.attend as GuestComming,
+        attend: data.attend as Attend,
         guests: data.guests,
       };
       try {
@@ -91,7 +92,7 @@ function Attendance() {
                   {...register("attend", { required: "Задължително поле." })}
                   type="radio"
                   id="coming"
-                  value={GuestComming.Comming}
+                  value={Attend.Comming}
                 />
                 <label className={styles.bulletOption} htmlFor="coming">
                   Да, ще присъствам
@@ -102,33 +103,41 @@ function Attendance() {
                   {...register("attend", { required: "Задължително поле." })}
                   type="radio"
                   id="notComing"
-                  value={GuestComming.NotComming}
+                  value={Attend.NotComming}
                 />
                 <label className={styles.bulletOption} htmlFor="notComing">
                   Не, няма да присъствам
                 </label>
               </div>
 
-              {attend === GuestComming.NotComming && (
+              {attend === Attend.NotComming && (
                 <div className={`${styles.formElement} ${styles.flexCol}`}>
                   <label htmlFor="name">Име и фамилия</label>
                   <input
                     type="text"
                     id="name"
                     {...register(`notComingAttendee`, {
-                      required: "Name is required",
+                      required: "Задължително поле",
                       pattern: {
                         value: /^[\p{L}\s]+$/u,
                         message: "Моля въведете валидно име.",
                       },
                     })}
+                    onBlur={(e) => {
+                      const trimmed = e.target.value.trim();
+                      setValue("notComingAttendee", trimmed, {
+                        shouldValidate: true,
+                      });
+                    }}
                   />
                   {errors.notComingAttendee?.message && (
-                    <p className={styles.errorMessage}>{errors.notComingAttendee?.message}</p>
+                    <p className={styles.errorMessage}>
+                      {errors.notComingAttendee?.message}
+                    </p>
                   )}
                 </div>
               )}
-              {attend === GuestComming.Comming && (
+              {attend === Attend.Comming && (
                 <div className={styles.formElementSelect}>
                   <label htmlFor="">Колко човека ще присъствате?</label>
                   <select {...register("guestCount")} name="guestCount" id="">
@@ -141,7 +150,7 @@ function Attendance() {
                 </div>
               )}
 
-              {attend === GuestComming.Comming &&
+              {attend === Attend.Comming &&
                 fields.map((field, i) => (
                   <section className={styles.delimeter} key={field.id}>
                     <h2>Гост {i + 1}</h2>
@@ -151,15 +160,23 @@ function Attendance() {
                         type="text"
                         id="name"
                         {...register(`guests.${i}.name`, {
-                          required: "Name is required",
+                          required: "Задължително поле",
                           pattern: {
                             value: /^[\p{L}\s]+$/u,
                             message: "Моля въведете валидно име.",
                           },
                         })}
+                        onBlur={(e) => {
+                          const trimmed = e.target.value.trim();
+                          setValue(`guests.${i}.name`, trimmed, {
+                            shouldValidate: true,
+                          });
+                        }}
                       />
                       {errors.guests?.[i]?.name?.message && (
-                        <p className={styles.errorMessage}>{errors.guests[i]?.name?.message}</p>
+                        <p className={styles.errorMessage}>
+                          {errors.guests[i]?.name?.message}
+                        </p>
                       )}
                     </div>
 

@@ -4,13 +4,13 @@ export type Attendee = {
   alergy: string;
 };
 export type FormValues = {
-  attend: GuestComming | null;
+  attend: Attend | null;
   notComingAttendee?: string;
   guestCount: string;
   guests: Attendee[];
 };
 
-export enum GuestComming {
+export enum Attend {
   Comming = "comming",
   NotComming = "notComming",
 }
