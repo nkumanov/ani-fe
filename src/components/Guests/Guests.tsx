@@ -15,6 +15,7 @@ function Guests() {
     <section className={styles.wrapper}>
       <h1>List of all guests</h1>
       {isLoading && <p>Loading...</p>}
+      {error && <p>Възникна някаква грешка. Моля опитайте по-късно.</p>}
       {data && (
         <table>
           <thead>

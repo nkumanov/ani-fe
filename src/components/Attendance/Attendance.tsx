@@ -153,7 +153,7 @@ function Attendance() {
                         {...register(`guests.${i}.name`, {
                           required: "Name is required",
                           pattern: {
-                            value: /[a-zA-Z]/,
+                            value: /^[\p{L}\s]+$/u,
                             message: "Моля въведете валидно име.",
                           },
                         })}

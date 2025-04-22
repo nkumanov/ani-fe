@@ -19,8 +19,8 @@ function Login() {
     try {
       const response = await loginUser(data).unwrap();
       dispatch(setCredentials(response));
-      if(response){
-        navigate('/guests')
+      if (response) {
+        navigate("/guests");
       }
     } catch (error) {
       console.log(error);
@@ -29,22 +29,25 @@ function Login() {
   return (
     <section className={styles.wrapper}>
       <h3>Login</h3>
-      <div className={styles.userForm}>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className={styles.formElement}>
-            <label htmlFor="">Username</label>
-            <input type="text" {...register("username")} />
-          </div>
-          <div className={styles.formElement}>
-            <label htmlFor="">Password</label>
-            <input type="password" {...register("password")} />
-          </div>
+      {isLoading && <p>Loading...</p>}
+      {!isLoading && (
+        <div className={styles.userForm}>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className={styles.formElement}>
+              <label htmlFor="">Username</label>
+              <input type="text" {...register("username")} />
+            </div>
+            <div className={styles.formElement}>
+              <label htmlFor="">Password</label>
+              <input type="password" {...register("password")} />
+            </div>
 
-          <button className={styles.submitBtn} type="submit">
-            Login
-          </button>
-        </form>
-      </div>
+            <button className={styles.submitBtn} type="submit">
+              Login
+            </button>
+          </form>
+        </div>
+      )}
     </section>
   );
 }
