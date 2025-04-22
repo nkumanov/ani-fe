@@ -116,6 +116,10 @@ function Attendance() {
                     id="name"
                     {...register(`notComingAttendee`, {
                       required: "Name is required",
+                      pattern: {
+                        value: /[a-zA-Z]/,
+                        message: "Моля въведете валидно име.",
+                      },
                     })}
                   />
                 </div>
@@ -144,6 +148,10 @@ function Attendance() {
                         id="name"
                         {...register(`guests.${i}.name`, {
                           required: "Name is required",
+                          pattern: {
+                            value: /[a-zA-Z]/,
+                            message: "Моля въведете валидно име.",
+                          },
                         })}
                       />
                     </div>
