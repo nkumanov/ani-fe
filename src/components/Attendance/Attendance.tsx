@@ -161,6 +161,7 @@ function Attendance() {
                     {...register("guestCount")}
                     name="guestCount"
                     id="guestCount"
+                    value={'1'}
                   >
                     {[1, 2, 3, 4, 5, 6].map((n) => (
                       <option key={n.toString()} value={n.toString()}>
