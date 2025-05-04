@@ -158,13 +158,12 @@ function Attendance() {
                 >
                   <label htmlFor="">Колко човека ще присъствате?</label>
                   <select
-                    defaultValue={1}
                     {...register("guestCount")}
                     name="guestCount"
-                    id=""
+                    id="guestCount"
                   >
                     {[1, 2, 3, 4, 5, 6].map((n) => (
-                      <option key={n} value={n.toString()}>
+                      <option key={n.toString()} value={n.toString()}>
                         {n}
                       </option>
                     ))}
