@@ -138,7 +138,10 @@ function Attendance() {
                 </div>
               )}
               {attend === Attend.Comming && (
-                <div className={styles.formElementSelect}>
+                <div
+                  className={styles.formElementSelect}
+                  style={{ marginTop: "1.4rem" }}
+                >
                   <label htmlFor="">Колко човека ще присъствате?</label>
                   <select {...register("guestCount")} name="guestCount" id="">
                     {[1, 2, 3, 4, 5, 6].map((n) => (

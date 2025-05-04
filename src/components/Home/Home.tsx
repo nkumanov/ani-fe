@@ -1,4 +1,3 @@
-
 import Attendance from "../Attendance/Attendance";
 import Intro from "../Intro/Intro";
 import styles from "./Home.module.scss";
@@ -85,7 +84,7 @@ function Main() {
             Lake Club.
           </p>
         </section>
-        <Attendance />
+
         <section className={styles.details}>
           <h2>Детайли</h2>
           <article>
@@ -109,17 +108,24 @@ function Main() {
               </li>
             </ul>
           </article>
+        </section>
+        <Attendance />
+        <section className={styles.footer}>
           <h3>
             За всички, които искат да се потопят напълно в атмосферата на нашия
             празник, нашият dress code включва следната палитра:
           </h3>
-          <div>
+          <div className={styles.colorPallete}>
             <span className={styles.palette1}></span>
             <span className={styles.palette2}></span>
             <span className={styles.palette3}></span>
             <span className={styles.palette4}></span>
             <span className={styles.palette5}></span>
           </div>
+          <h3>
+            Ако имате други въпроси, не се колебайте да се свържете с нас.
+            Очакваме Ви!
+          </h3>
         </section>
       </main>
     </>
