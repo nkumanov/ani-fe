@@ -12,7 +12,9 @@ enum Meal {
   vegie = "Вегетарианско",
 }
 function Guests() {
-  const { data, isLoading, error } = useGetAllGuestsQuery();
+  const { data, isLoading, error } = useGetAllGuestsQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
   const [filter, setFilter] = useState<"all" | Attend>("all");
   if (isLoading) return <p>Loading...</p>;
   const showGuests = (filter: "all" | Attend) => {

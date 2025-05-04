@@ -19,12 +19,15 @@ export const guestApi = baseApi.injectEndpoints({
     }),
     addNewGuest: builder.mutation<
       { user: any },
-      { attend: Attend; name?: string; guests?: Attendee[] }
+      {
+        userData: { attend: Attend; name?: string; guests?: Attendee[] };
+        location: string;
+      }
     >({
-      query: (queryData) => ({
+      query: ({ userData, location }) => ({
         url: "guests",
         method: "POST",
-        body: queryData,
+        body: userData,
         meta: {
           requestName: "Add new guest",
         },
@@ -32,7 +35,9 @@ export const guestApi = baseApi.injectEndpoints({
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
           const { data } = await queryFulfilled;
-          localStorage.setItem("userAnswer", "true");
+          if (arg.location !== "admin") {
+            localStorage.setItem("userAnswer", "true");
+          }
         } catch (error) {}
       },
     }),

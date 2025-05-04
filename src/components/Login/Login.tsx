@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import styles from "./Login.module.scss";
 
@@ -14,13 +14,19 @@ function Login() {
   const [loginUser, { isLoading, error }] = useLoginUserMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  useEffect(() => {
+    const isAdmin = localStorage.getItem("admin");
+    if (isAdmin) {
+      navigate("/admin/guests");
+    }
+  }, [navigate]);
   const { register, handleSubmit } = useForm<User>();
   const onSubmit: SubmitHandler<User> = async (data) => {
     try {
       const response = await loginUser(data).unwrap();
       dispatch(setCredentials(response));
       if (response) {
-        navigate("/guests");
+        navigate("/admin/guests");
       }
     } catch (error) {
       console.log(error);

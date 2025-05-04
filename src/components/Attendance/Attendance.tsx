@@ -3,6 +3,7 @@ import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import styles from "./Attendance.module.scss";
 import { useAddNewGuestMutation } from "../../store/api/guests.api";
 import { FormValues, Attend } from "../../shared/guest.model";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function Attendance() {
   const {
@@ -21,12 +22,14 @@ function Attendance() {
       guests: [{ name: "", meal: null, alergy: "" }],
     },
   });
-  const [addNewGuest] = useAddNewGuestMutation();
+  const [addNewGuest, { isSuccess }] = useAddNewGuestMutation();
   const { append, remove, fields } = useFieldArray({
     name: "guests",
     control,
   });
-
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isAdminPath = location.pathname.includes("admin") ? "admin" : "";
   const guestCountWatch = parseInt(watch("guestCount") || "1");
   const attend = watch("attend");
   const onSubmitHandler: SubmitHandler<FormValues> = async (data) => {
@@ -36,7 +39,10 @@ function Attendance() {
         name: data.notComingAttendee,
       };
       try {
-        await addNewGuest(formDataToSend).unwrap();
+        await addNewGuest({
+          userData: formDataToSend,
+          location: isAdminPath,
+        }).unwrap();
       } catch (error) {
         console.log(error);
       }
@@ -46,13 +52,21 @@ function Attendance() {
         guests: data.guests,
       };
       try {
-        await addNewGuest(formDataToSend).unwrap();
+        await addNewGuest({
+          userData: formDataToSend,
+          location: isAdminPath,
+        }).unwrap();
       } catch (error) {
         console.log(error);
       }
     }
   };
   const [firstRender, setFirstRender] = useState(true);
+  useEffect(() => {
+    if (isAdminPath === "admin" && isSuccess) {
+      navigate("/admin/guests");
+    }
+  }, [isSuccess, isAdminPath]);
   useEffect(() => {
     if (firstRender) {
       setFirstRender(false);
@@ -61,7 +75,7 @@ function Attendance() {
 
       if (guestCountWatch > currentGuests) {
         for (let i = currentGuests; i < guestCountWatch; i++) {
-          append({ name: "", meal: null, alergy: "" });
+          append({ name: "", meal: null, alergy: "" }, { shouldFocus: false });
         }
       } else if (guestCountWatch < currentGuests) {
         // Remove extra guests

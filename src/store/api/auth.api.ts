@@ -1,9 +1,13 @@
 import { baseApi } from "./api";
-
+interface ILoginDto {
+  data: {
+    token: string;
+  };
+}
 export const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     loginUser: builder.mutation<
-      { user: any },
+      ILoginDto,
       { username: string; password: string }
     >({
       query: (credentials) => ({
@@ -14,6 +18,14 @@ export const authApi = baseApi.injectEndpoints({
           requestName: "Login request",
         },
       }),
+      onQueryStarted: async (arg, { queryFulfilled }) => {
+        try {
+          const { data } = await queryFulfilled;
+          if (data) {
+            localStorage.setItem("admin", data.data.token);
+          }
+        } catch (error) {}
+      },
     }),
   }),
   overrideExisting: false,
